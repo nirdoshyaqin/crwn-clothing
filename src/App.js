@@ -9,10 +9,9 @@ import ShopPage from './pages/shop/shop.component';
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
 import Header from './components/header/header.component';
 import { auth, createUserProfileDocument } from './firebase/firebase.utils';
-import { setCurrentUser } from './redux/user/user.actions'
+import { setCurrentUser } from './redux/user/user.actions';
 
 class App extends React.Component {
-
   unsubscribeFromAuth = null;
 
   componentDidMount() {
@@ -28,11 +27,9 @@ class App extends React.Component {
             ...snapShot.data()
           });
         });
+      }
 
-      }
-      else {
-        setCurrentUser(userAuth);
-      }
+      setCurrentUser(userAuth);
     });
   }
 
@@ -66,10 +63,13 @@ class App extends React.Component {
 
 const mapStateToProps = ({ user }) => ({
   currentUser: user.currentUser
-})
+});
 
 const mapDispatchToProps = dispatch => ({
   setCurrentUser: user => dispatch(setCurrentUser(user))
 });
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
